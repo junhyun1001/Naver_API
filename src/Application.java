@@ -1,4 +1,4 @@
-import service.NaverService;
+import service.SearchService;
 
 public class Application {
 
@@ -12,7 +12,7 @@ public class Application {
         final String NAVER_CLIENT_ID = System.getenv("NAVER_CLIENT_ID");
         final String NAVER_CLIENT_SECRET = System.getenv("NAVER_CLIENT_SECRET");
 
-        NaverService naverSearchService = new NaverService(NAVER_CLIENT_ID, NAVER_CLIENT_SECRET);
+        SearchService naverSearchService = new SearchService(NAVER_CLIENT_ID, NAVER_CLIENT_SECRET);
 
         String body = naverSearchService.searchNews("삼성전자");
 

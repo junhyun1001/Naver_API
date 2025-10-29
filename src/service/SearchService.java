@@ -10,11 +10,9 @@ import model.HttpException;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 
 public class SearchService implements NaverService {
     private final HttpClient client = HttpClient.newHttpClient();
@@ -28,11 +26,10 @@ public class SearchService implements NaverService {
 
     @Override
     public String searchNews(String query) {
-        String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
-
         String baseUrl = "https://openapi.naver.com/v1/search/news.json";
+
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("%s?query=%s".formatted(baseUrl, encodedQuery)))
+                .uri(URI.create("%s?query=%s".formatted(baseUrl, query)))
                 .header("X-Naver-Client-Id", clientId)
                 .header("X-Naver-Client-Secret", clientSecret)
                 .build();
@@ -48,4 +45,24 @@ public class SearchService implements NaverService {
         }
     }
 
+    @Override
+    public String searchKin(String query) {
+        String baseUrl = "https://openapi.naver.com/v1/search/kin.json";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("%s?query=%s".formatted(baseUrl, query)))
+                .header("X-Naver-Client-Id", clientId)
+                .header("X-Naver-Client-Secret", clientSecret)
+                .build();
+
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new HttpException(response.statusCode(), response.body());
+            }
+            return response.body();
+        } catch (IOException | InterruptedException | HttpException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

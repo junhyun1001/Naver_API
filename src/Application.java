@@ -14,8 +14,8 @@ public class Application {
 
         SearchService naverSearchService = new SearchService(NAVER_CLIENT_ID, NAVER_CLIENT_SECRET);
 
-//        String body = naverSearchService.searchNews("삼성전자");
-        String body = naverSearchService.searchKin("삼성전자");
+        String body = naverSearchService.searchNews("삼성전자");
+//        String body = naverSearchService.searchKin("삼성전자");
 
         System.out.println(body);
     }
